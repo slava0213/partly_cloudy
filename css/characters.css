@@ -1,0 +1,37 @@
+/* ---------- персонажи: Гас, Пик и малыши на клювах ---------- */
+.baby { position: absolute; display: block; height: auto; pointer-events: none; user-select: none; translate: -52.3% -16.8%; transform-origin: 52.3% 16.8%; animation: babySway 2.4s ease-in-out infinite alternate; filter: drop-shadow(0 6px 8px rgba(40, 40, 80, .25)); }
+@keyframes babySway { from { rotate: -8deg; } to { rotate: 8deg; } }
+.stork > .baby { left: 78.85%; top: 58.1%; width: 24%; }
+.stork--far > .baby { opacity: 1; }
+.baby.is-falling { animation: drop 2.4s cubic-bezier(.3, .1, .6, 1) forwards; }
+
+/* Гас: пушистое серое облако с большой мордой, держит малыша */
+.gus { width: clamp(150px, 19vw, 300px); }
+.gus__breath { transform-origin: 150px 290px; animation: breathe 4s ease-in-out infinite alternate; }
+@keyframes breathe { to { transform: scale(1.025, 1.045); } }
+.gus__hands { animation: handsUp 2.4s ease-in-out infinite alternate; }
+@keyframes handsUp { to { transform: translateY(-4px); } }
+.gus__baby { left: 50%; top: 72%; width: 17%; }
+.gus .lid { fill: #a3a9b8; }
+.gus__mouth { d: path("M136 174 Q150 166 164 174"); transition: d .3s; }
+.gus:hover .gus__mouth { d: path("M134 168 Q150 182 166 168"); }
+.gus.is-angry .gus__mouth { d: path("M136 178 Q150 160 164 178"); }
+.gus__brow { d: path("M100 82 Q116 78 130 86 M170 86 Q184 78 200 82"); transition: d .3s; }
+.gus.is-angry .gus__brow { d: path("M100 74 Q118 86 134 90 M166 90 Q182 86 200 74"); stroke: #3a3d4c; }
+.gus.is-angry .gus__body { fill: url(#gb); filter: url(#fuzz) brightness(.78); }
+
+/* Пик: аист с малышом в клюве */
+.peck { position: relative; width: var(--w); aspect-ratio: 340 / 240; cursor: pointer; pointer-events: auto; filter: var(--cloud-filter); }
+.peck__svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.peck .baby { left: 98.2%; top: 38.3%; width: 25%; }
+.peck__wing { transform-origin: 150px 112px; animation: pflap .9s ease-in-out infinite alternate; }
+.peck__wing--back { animation-delay: .08s; }
+@keyframes pflap { from { transform: rotate(-6deg); } to { transform: rotate(46deg); } }
+.peck__legs { transform-origin: 95px 150px; animation: plegs 1.4s ease-in-out infinite alternate; }
+@keyframes plegs { from { transform: rotate(-5deg); } to { transform: rotate(7deg); } }
+.peck__head { transform-origin: 190px 112px; animation: phead 3s ease-in-out infinite alternate; }
+@keyframes phead { from { transform: rotate(-3deg); } to { transform: rotate(4deg); } }
+.peck.is-excited .peck__wing { animation-duration: .4s; }
+.peck.is-excited .peck__head { animation-duration: .3s; }
+
+@media (prefers-reduced-motion: reduce) { .baby, .gus__breath, .gus__hands, .peck__wing, .peck__legs, .peck__head { animation: none !important; } }

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Переменная облачность — моё мнение о мультфильме</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/sky.css">
+  <link rel="stylesheet" href="../css/gallery.css">
+  <link rel="stylesheet" href="../css/extras.css">
+  <link rel="stylesheet" href="../css/characters.css">
+</head>
+<body data-theme="day">
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="topbar__back" href="#top" aria-label="Наверх"><span></span></a>
+    <nav class="topbar__nav" aria-label="Разделы">
+      <a href="#top">Мнение</a><a href="#scenes">Фрагменты</a><a href="#verdict">Итог</a><a href="#talk">Отзывы</a>
+    </nav>
+    <button class="pill" id="editToggle" type="button" aria-pressed="false">Править текст</button>
+  </header>
+
+  <main id="top">
+    <section class="hero" id="hero" aria-labelledby="title">
+      <div class="sky" aria-hidden="true">
+        <div class="sky__glow"></div>
+        <div class="stars" id="stars"></div>
+        <div class="layer" data-depth="10" id="layerBack"></div>
+        <div class="layer" data-depth="20" id="layerBirds"></div>
+        <div class="layer" data-depth="30" id="layerMid"></div>
+      </div>
+      <canvas class="rain" id="rain" aria-hidden="true"></canvas>
+
+      <h1 class="logotype" id="title">
+        <span class="logotype__small">переменная</span>
+        <span class="logotype__big">облачность</span>
+      </h1>
+
+      <div class="sky sky--front" aria-hidden="true">
+        <div class="layer" data-depth="50" id="layerFront"></div>
+        <div class="layer layer--peck" data-depth="40" id="layerPeck"></div>
+      </div>
+
+      <button class="gus" id="gus" type="button" aria-label="Гас — облако с малышом. Нажмите на него">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <defs>
+            <radialGradient id="gb" cx="42%" cy="28%" r="85%"><stop offset="0" stop-color="#d3d6df"/><stop offset=".55" stop-color="#a3a9b8"/><stop offset="1" stop-color="#767d90"/></radialGradient>
+            <radialGradient id="gm" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#e4e6ec"/><stop offset="1" stop-color="#b4b9c7"/></radialGradient>
+            <filter id="fuzz" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16"/></filter>
+          </defs>
+          <g class="gus__breath">
+            <g class="gus__body" filter="url(#fuzz)" fill="url(#gb)">
+              <ellipse cx="150" cy="225" rx="128" ry="72"/><circle cx="60" cy="215" r="48"/><circle cx="240" cy="215" r="48"/>
+              <circle cx="150" cy="120" r="82"/><circle cx="92" cy="62" r="30"/><circle cx="205" cy="60" r="32"/><circle cx="150" cy="44" r="34"/>
+            </g>
+            <g class="gus__face">
+              <ellipse cx="150" cy="142" rx="46" ry="36" fill="url(#gm)"/>
+              <ellipse cx="150" cy="124" rx="14" ry="8" fill="#7d8496" opacity=".5"/>
+              <g class="gus__eyes">
+                <ellipse cx="116" cy="96" rx="11" ry="12" fill="#fff"/><ellipse cx="184" cy="96" rx="11" ry="12" fill="#fff"/>
+                <circle class="pupil" data-cx="116" data-cy="100" cx="116" cy="100" r="6" fill="#262a3a"/>
+                <circle class="pupil" data-cx="184" data-cy="100" cx="184" cy="100" r="6" fill="#262a3a"/>
+                <rect class="lid" x="103" y="83" width="26" height="0" fill="#a3a9b8"/><rect class="lid" x="171" y="83" width="26" height="0" fill="#a3a9b8"/>
+              </g>
+              <path class="gus__brow" d="M100 82 Q116 78 130 86 M170 86 Q184 78 200 82" fill="none" stroke="#6f7688" stroke-width="3.5" stroke-linecap="round"/>
+              <path class="gus__mouth" d="M136 174 Q150 166 164 174" fill="none" stroke="#4d5366" stroke-width="3.5" stroke-linecap="round"/>
+            </g>
+            <g class="gus__hands" fill="#8f96a8"><circle cx="132" cy="228" r="17"/><circle cx="168" cy="228" r="17"/></g>
+          </g>
+        </svg>
+        <img class="gus__baby baby" src="../images/sprites/baby.png" alt="">
+
+        <span class="gus__bubble" id="gusBubble" role="status"></span>
+      </button>
+
+      <article class="opinion">
+        <h2 data-key="heading"></h2>
+        <blockquote data-key="quote"></blockquote>
+        <p class="opinion__author" data-key="author"></p>
+        <p class="opinion__note" data-key="authorNote"></p>
+        <div class="opinion__actions">
+          <a class="opinion__more" href="#scenes">Смотреть фрагменты</a>
+          <button type="button" class="link-btn" id="copyQuote">Копировать цитату</button>
+        </div>
+      </article>
+
+      <aside class="card">
+        <a href="#scenes" class="card__head"><span data-key="cardTitle"></span> <span class="arrow"></span></a>
+        <p data-key="cardText"></p>
+      </aside>
+    </section>
+
+    <section class="scenes" id="scenes" aria-labelledby="scenesTitle">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="scenesTitle" data-key="scenesTitle"></h2>
+          <p class="section-head__hint" data-key="scenesHint"></p>
+        </header>
+        <div class="filters" id="filters" role="group" aria-label="Фильтр по настроению"></div>
+        <ul class="grid" id="grid"></ul>
+        <p class="empty" id="empty" hidden>Здесь пока пусто. Отметьте сердечком любой фрагмент.</p>
+      </div>
+    </section>
+
+    <section class="verdict" id="verdict" aria-labelledby="verdictTitle">
+      <div class="wrap verdict__grid">
+        <div class="score">
+          <h2 id="verdictTitle" class="visually-hidden">Итоговая оценка</h2>
+          <div class="ring" id="ring">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="ring__bg"/><circle cx="60" cy="60" r="52" class="ring__fg" id="ringFg"/></svg>
+            <span class="ring__num" data-key="rating"></span>
+          </div>
+          <p class="score__note" data-key="ratingNote"></p>
+          <ul class="reasons">
+            <li data-key="reasons.0"></li><li data-key="reasons.1"></li><li data-key="reasons.2"></li>
+          </ul>
+        </div>
+
+        <div class="poll" id="poll">
+          <h3 data-key="pollQuestion"></h3>
+          <div class="poll__opts">
+            <button type="button" data-vote="yes">Да</button>
+            <button type="button" data-vote="part">Частично</button>
+            <button type="button" data-vote="no">Нет</button>
+          </div>
+          <div class="poll__bars" id="pollBars"></div>
+          <p class="hint">Голоса хранятся только в вашем браузере.</p>
+        </div>
+
+        <div class="maker">
+          <h3 data-key="makerTitle"></h3>
+          <canvas id="cardCanvas" width="1080" height="1080" aria-label="Открытка с цитатой"></canvas>
+          <div class="maker__row" id="cardStyles" role="group" aria-label="Стиль открытки">
+            <button type="button" data-style="day" aria-pressed="true">День</button>
+            <button type="button" data-style="sunset" aria-pressed="false">Закат</button>
+            <button type="button" data-style="night" aria-pressed="false">Ночь</button>
+          </div>
+          <button type="button" class="pill pill--solid" id="cardSave">Скачать PNG</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="talk" id="talk" aria-labelledby="talkTitle">
+      <div class="wrap talk__grid">
+        <form class="talk__form" id="talkForm" autocomplete="off">
+          <h2 id="talkTitle" data-key="talkTitle"></h2>
+          <label>Имя<input id="talkName" maxlength="30" required></label>
+          <label>Что вы думаете о фильме?<textarea id="talkText" rows="4" maxlength="400" required></textarea></label>
+          <div class="moods" id="moods" role="radiogroup" aria-label="Настроение">
+            <button type="button" role="radio" aria-checked="true" data-mood="☁️">☁️</button>
+            <button type="button" role="radio" aria-checked="false" data-mood="💗">💗</button>
+            <button type="button" role="radio" aria-checked="false" data-mood="😂">😂</button>
+            <button type="button" role="radio" aria-checked="false" data-mood="⚡">⚡</button>
+          </div>
+          <button class="pill pill--solid" type="submit">Отправить</button>
+          <p class="hint">Отзывы видны только в этом браузере: это сайт без сервера.</p>
+        </form>
+        <ul class="talk__list" id="talkList" aria-live="polite"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><span data-key="footer"></span></footer>
+
+  <!-- просмотр фрагмента -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Просмотр фрагмента">
+    <div class="lightbox__fx" id="lbFx" aria-hidden="true"></div>
+    <div class="lightbox__box">
+      <button class="lb-close" id="lbClose" type="button" aria-label="Закрыть">×</button>
+      <div class="lb-stage">
+        <button class="lb-nav lb-nav--prev" id="lbPrev" type="button" aria-label="Предыдущий">‹</button>
+        <div class="lb-frame"><img id="lbImg" alt="" width="450" height="253"><div class="lb-slide" id="lbSlide"></div></div>
+        <button class="lb-nav lb-nav--next" id="lbNext" type="button" aria-label="Следующий">›</button>
+      </div>
+      <div class="lb-info">
+        <p class="lb-count" id="lbCount"></p>
+        <h3 id="lbTitle" data-key="sceneTitle"></h3>
+        <p id="lbText" data-key="sceneText"></p>
+        <div class="lb-tags" id="lbTags"></div>
+        <div class="lb-controls">
+          <button type="button" id="lbPlay" aria-pressed="true">Пауза</button>
+          <button type="button" id="lbSlideBtn" aria-pressed="false">Слайд-шоу</button>
+          <button type="button" id="lbFav" aria-pressed="false">♥ В любимые</button>
+          <button type="button" id="lbLink">Ссылка</button>
+        </div>
+        <div class="lb-stars" id="lbStars" role="radiogroup" aria-label="Ваша оценка"></div>
+        <div class="lb-react" id="lbReact"></div>
+        <p class="hint">Клавиши: ← → листать, пробел — пауза, Esc — закрыть.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- панель эффектов -->
+  <div class="dock" id="dock">
+    <button class="dock__btn" id="dockBtn" type="button" aria-expanded="false" aria-controls="dockPanel">Небо</button>
+    <div class="dock__panel" id="dockPanel" hidden>
+      <fieldset>
+        <legend>Время суток</legend>
+        <div class="seg" id="themeSeg">
+          <button type="button" data-theme="morning">Утро</button>
+          <button type="button" data-theme="day">День</button>
+          <button type="button" data-theme="sunset">Закат</button>
+          <button type="button" data-theme="night">Ночь</button>
+          <button type="button" data-theme="auto">Авто</button>
+        </div>
+      </fieldset>
+      <label class="dock__row">Ветер <input type="range" id="fxWind" min="0" max="4" step=".5" value="1"></label>
+      <label class="dock__row">Аисты <input type="range" id="fxStorks" min="0" max="8" step="1" value="6"></label>
+      <label class="dock__chk"><input type="checkbox" id="fxRain"> Дождь</label>
+      <label class="dock__chk"><input type="checkbox" id="fxStorm"> Гроза</label>
+      <label class="dock__chk"><input type="checkbox" id="fxTrail"> Облачный след</label>
+      <label class="dock__chk"><input type="checkbox" id="fxSound"> Звук дождя и грома</label>
+      <button type="button" class="link-btn" id="fxGust">Порыв ветра</button>
+    </div>
+  </div>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Наверх" hidden>↑</button>
+
+  <div class="toolbar" id="toolbar" hidden role="toolbar" aria-label="Форматирование текста">
+    <button type="button" data-cmd="bold" title="Жирный"><b>Ж</b></button>
+    <button type="button" data-cmd="italic" title="Курсив"><i>К</i></button>
+    <button type="button" data-cmd="underline" title="Подчёркнутый"><u>Ч</u></button>
+    <select id="tbSize" aria-label="Размер">
+      <option value="">Размер</option><option value="2">Мелкий</option><option value="3">Обычный</option><option value="5">Крупный</option><option value="6">Огромный</option>
+    </select>
+    <input type="color" id="tbColor" value="#4b6a86" aria-label="Цвет текста">
+    <button type="button" data-cmd="justifyLeft" title="По левому краю">⇤</button>
+    <button type="button" data-cmd="justifyCenter" title="По центру">↔</button>
+    <button type="button" data-cmd="undo" title="Отменить">↶</button>
+    <button type="button" data-cmd="redo" title="Вернуть">↷</button>
+    <span class="toolbar__sep"></span>
+    <button type="button" id="tbImport">Загрузить файл</button>
+    <input type="file" id="tbFile" accept=".js,.json,.txt" hidden>
+    <button type="button" id="tbExport">Скачать content.js</button>
+    <button type="button" id="tbReset">Сбросить</button>
+    <button type="button" id="tbDone" class="is-primary">Готово</button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="flash" id="flash" aria-hidden="true">
+    <svg viewBox="0 0 200 400" preserveAspectRatio="none"><path id="bolt" d="" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  </div>
+
+  <script src="../JavaScript/content.js"></script>
+  <script src="../JavaScript/core.js"></script>
+  <script src="../JavaScript/world.js"></script>
+  <script src="../JavaScript/gallery.js"></script>
+  <script src="../JavaScript/extras.js"></script>
+  <script src="../JavaScript/editor.js"></script>
+  <script src="../JavaScript/start.js"></script>
+</body>
+</html>
